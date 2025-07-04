@@ -1,0 +1,6 @@
+CREATE DATEBASE GYM;
+
+GO
+
+USE GYM;
+
