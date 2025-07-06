@@ -1,0 +1,78 @@
+body {
+    background-color: #000;
+    background-image: linear-gradient(135deg, #000000, #0f0f0f);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.login-card {
+    background-color: #0d0d0d;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 0 25px #00f7ff;
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-control {
+    background-color: #1a1a1a;
+    border: 1px solid #00f7ff;
+    color: white;
+}
+
+.form-control:focus {
+    background-color: #1a1a1a !important;
+    color: white !important;
+    border-color: #00f7ff !important;
+    box-shadow: none !important;
+}
+
+.form-control::placeholder {
+    color: #aaa;
+}
+
+.text-center h2 {
+    font-weight: bold;
+    color: #00f7ff;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+#togglePassword {
+    background-color: #1a1a1a;
+    border-color: #00f7ff;
+
+    img {
+        filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+        transition: transform 0.2s ease;
+    }
+}
+
+#togglePassword:hover img {
+    transform: scale(1.1);
+}
+
+.btn-custom {
+    background-color: #ffcc00 !important;
+    color: #000 !important;
+    font-weight: bold;
+    font-size: 0.95rem;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.4rem;
+    width: fit-content;
+    align-self: center;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    box-shadow: 0 4px 15px rgba(245, 233, 4, 0.767);
+    transform: translateY(-4px) scale(1.05);
+    background-color: #ffd633;
+    color: #1a1a1a;
+}
