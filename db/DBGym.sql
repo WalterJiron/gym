@@ -128,8 +128,8 @@ GO
 -- Detalle de ventas 
 CREATE TABLE DetalleVenta(
     CodDetalleVenta UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
-    CodVenta UNIQUEIDENTIFIER NOT NULL FOREIGN KEY REFERENCES Venta(CodVenta) NOT NULL,
-    CodMembresia UNIQUEIDENTIFIER NOT NULL FOREIGN KEY REFERENCES Membresia(CodMembresia) NOT NULL,
+    CodVenta UNIQUEIDENTIFIER FOREIGN KEY REFERENCES Venta(CodVenta) NOT NULL,
+    CodMembresia UNIQUEIDENTIFIER FOREIGN KEY REFERENCES Membresia(CodMembresia) NOT NULL,
     CodDescuento UNIQUEIDENTIFIER FOREIGN KEY REFERENCES Descuento(CodDescuento),
     Cantidad INT NOT NULL DEFAULT 1 CHECK (Cantidad > 0),
     PrecioUnitario DECIMAL(18, 3) NOT NULL CHECK (PrecioUnitario >= 0),
@@ -137,7 +137,7 @@ CREATE TABLE DetalleVenta(
     Total DECIMAL(18, 3) NOT NULL CHECK (Total >= 0),
     FechaInicio DATE NOT NULL,
     FechaFin DATE NOT NULL,
-    EstadoDV CHAR(1) DEFAULT 'A' CHECK (EstadoVD IN ('A', 'C')) -- A = Activo, C = Cancelado
+    EstadoDV CHAR(1) DEFAULT 'A' CHECK (EstadoDV IN ('A', 'C')) -- A = Activo, C = Cancelado
 );
 
 GO
