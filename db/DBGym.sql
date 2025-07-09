@@ -56,7 +56,6 @@ GO
 CREATE TABLE Membresia(
     CodMembresia UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
     NameMembresia NVARCHAR(50) NOT NULL,
-    DescripMembresia NVARCHAR(500),
     Precio DECIMAL(18, 3) NOT NULL CHECK (Precio >= 0),
     DuracionDias INT NOT NULL CHECK (DuracionDias > 0),
     DateCreate DATETIMEOFFSET DEFAULT SYSDATETIMEOFFSET() AT TIME ZONE 'Central America Standard Time',
@@ -75,8 +74,7 @@ CREATE TABLE Caja(
     FechaCierre DATETIMEOFFSET,
     MontoApertura DECIMAL(18, 3) NOT NULL CHECK (MontoApertura >= 0),
     MontoCierre DECIMAL(18, 3) CHECK (MontoCierre >= 0),
-    Observaciones NVARCHAR(200),
-    EstadoCaja CHAR(1) DEFAULT 'A' CHECK (EstadoCaja IN ('A', 'C')) -- A=Abierta, C=Cerrada
+    EstadoCaja BIT DEFAULT 1 -- 1 = Abierta, 0 = Cerrada
 );
 
 GO
@@ -104,8 +102,8 @@ CREATE TABLE Descuento(
     Valor DECIMAL(18, 3) NOT NULL CHECK (Valor >= 0),
     FechaInicio DATE NOT NULL,
     FechaFin DATE NOT NULL,
-    EstadoDes BIT DEFAULT 1,
-    Aplicacion NVARCHAR(20) CHECK (Aplicacion IN ('Global', 'Detalle')) DEFAULT 'Detalle'
+    Aplicacion NVARCHAR(20) CHECK (Aplicacion IN ('Global', 'Detalle')) DEFAULT 'Detalle',
+    EstadoDes BIT DEFAULT 1
 );
 
 GO
@@ -119,8 +117,7 @@ CREATE TABLE Venta(
     DescuentoGlobal UNIQUEIDENTIFIER FOREIGN KEY REFERENCES Descuento(CodDescuento),
     SubTotal DECIMAL(18, 3) NOT NULL CHECK (SubTotal >= 0),
     Total DECIMAL(18, 3) NOT NULL CHECK (Total >= 0),
-    EstadoVenta CHAR(1) DEFAULT 'V' CHECK (EstadoVenta IN ('V', 'A')), -- V = vendido, A = anulado
-    Observaciones NVARCHAR(200)
+    EstadoVenta CHAR(1) DEFAULT 'V' CHECK (EstadoVenta IN ('V', 'A')) -- V = vendido, A = anulado
 );
 
 GO
@@ -135,8 +132,6 @@ CREATE TABLE DetalleVenta(
     PrecioUnitario DECIMAL(18, 3) NOT NULL CHECK (PrecioUnitario >= 0),
     SubTotal DECIMAL(18, 3) NOT NULL CHECK (SubTotal >= 0),
     Total DECIMAL(18, 3) NOT NULL CHECK (Total >= 0),
-    FechaInicio DATE NOT NULL,
-    FechaFin DATE NOT NULL,
     EstadoDV CHAR(1) DEFAULT 'A' CHECK (EstadoDV IN ('A', 'C')) -- A = Activo, C = Cancelado
 );
 
@@ -148,8 +143,7 @@ CREATE TABLE Pago(
     CodVenta UNIQUEIDENTIFIER NOT NULL FOREIGN KEY REFERENCES Venta(CodVenta),
     MetodoPago NVARCHAR(20) DEFAULT 'Efectivo' NOT NULL,
     Monto DECIMAL(18, 3) NOT NULL CHECK (Monto >= 0),
-    FechaPago DATETIMEOFFSET DEFAULT SYSDATETIMEOFFSET() AT TIME ZONE 'Central America Standard Time',
-    Referencia NVARCHAR(100)
+    FechaPago DATETIMEOFFSET DEFAULT SYSDATETIMEOFFSET() AT TIME ZONE 'Central America Standard Time'
 );
 
 GO
@@ -163,16 +157,4 @@ CREATE TABLE ClienteMembresia(
     FechaFin DATE NOT NULL,
     FechaRegistro DATETIMEOFFSET DEFAULT SYSDATETIMEOFFSET() AT TIME ZONE 'Central America Standard Time',
     Estado BIT DEFAULT 1
-);
-
-GO
-
--- Asistencias
-CREATE TABLE Asistencia(
-    CodAsistencia UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY NOT NULL,
-    CodCliente UNIQUEIDENTIFIER NOT NULL FOREIGN KEY REFERENCES Cliente(CodCliente),
-    CodClienteMembresia UNIQUEIDENTIFIER NOT NULL FOREIGN KEY REFERENCES ClienteMembresia(CodClienteMembresia),
-    FechaHoraEntrada DATETIMEOFFSET DEFAULT SYSDATETIMEOFFSET() AT TIME ZONE 'Central America Standard Time',
-    FechaHoraSalida DATETIMEOFFSET,
-    CodUserRegistro UNIQUEIDENTIFIER FOREIGN KEY REFERENCES Users(CodigoUser)
 );
